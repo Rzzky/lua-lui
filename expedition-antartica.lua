@@ -68,6 +68,82 @@ local Toggle = Tab:CreateToggle({
     end,
 })
 
+local AutoHealEnabled = false
+local HealConnection
+
+local Toggle = Tab:CreateToggle({
+    Name = "Auto Heal",
+    CurrentValue = false,
+    Flag = "AutoHealToggle",
+    Callback = function(Value)
+        AutoHealEnabled = Value
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+
+        if AutoHealEnabled then
+            HealConnection = game:GetService("RunService").Heartbeat:Connect(function()
+                if humanoid.Health < humanoid.MaxHealth then
+                    humanoid.Health = math.min(humanoid.Health + 5, humanoid.MaxHealth)
+                end
+            end)
+        else
+            if HealConnection then HealConnection:Disconnect() HealConnection = nil end
+        end
+    end,
+})
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local godModeConnection = nil
+local function enableGodMode(character)
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if humanoid and humanoid.Name ~= "GodHumanoid" then
+        humanoid.Name = "GodHumanoid"
+
+        godModeConnection = humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+            if humanoid.Health < 1 then
+                humanoid.Health = humanoid.MaxHealth
+            end
+        end)
+    end
+end
+
+local function disableGodMode(character)
+    if godModeConnection then
+        godModeConnection:Disconnect()
+        godModeConnection = nil
+    end
+    local humanoid = character:FindFirstChild("GodHumanoid")
+    if humanoid then
+        humanoid.Name = "Humanoid"
+    end
+end
+
+local Toggle = Tab:CreateToggle({
+    Name = "God Mode",
+    CurrentValue = false,
+    Flag = "GodModeToggle",
+    Callback = function(Value)
+        local character = player.Character or player.CharacterAdded:Wait()
+        if Value then
+            enableGodMode(character)
+        else
+            disableGodMode(character)
+        end
+    end,
+})
+
+player.CharacterAdded:Connect(function(character)
+    wait(1)
+    if Toggle.CurrentValue then
+        enableGodMode(character)
+    else
+        disableGodMode(character)
+    end
+end)
+
 local Toggle = Tab:CreateToggle({
     Name = "Click Teleport",
     CurrentValue = false,
@@ -99,6 +175,29 @@ local Toggle = Tab:CreateToggle({
         end
     end,
 })
+
+local Slider = Tab:CreateSlider({
+   Name = "WalkSpeed",
+   Range = {0, 100},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "Slider1",
+   Callback = function(Value)
+      local player = game.Players.LocalPlayer
+      local character = player.Character or player.CharacterAdded:Wait()
+      local humanoid = character:FindFirstChildOfClass("Humanoid")
+      
+      if humanoid then
+          humanoid.WalkSpeed = Value
+      end
+   end,
+})
+
+-- ========================== Teleport ==========================
+
+local Tab = Window:CreateTab("Teleport")
+local Section = Tab:CreateSection("- 3xplo Yang Tersedia -")
 
 local Toggle = Tab:CreateToggle({
     Name = "Teleport to Camp 1",
