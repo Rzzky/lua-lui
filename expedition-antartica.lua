@@ -2,35 +2,35 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "Expedition Antartica by RzkyO",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   Icon = 0,
    LoadingTitle = "Expedition Antartica",
    LoadingSubtitle = "by RzkyO",
-   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+   Theme = "Default",
 
    DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+   DisableBuildWarnings = false,
 
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = nil, -- Create a custom folder for your hub/game
+      FolderName = nil, 
       FileName = "Big Hub"
    },
 
    Discord = {
-      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
-      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+      Enabled = false, 
+      Invite = "noinvitelink", 
+      RememberJoins = true 
    },
 
-   KeySystem = false, -- Set this to true to use our key system
+   KeySystem = false, 
    KeySettings = {
       Title = "Untitled",
       Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
-      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
-      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-      Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+      Note = "No method of obtaining the key is provided", 
+      FileName = "Key",
+      SaveKey = true, 
+      GrabKeyFromSite = false,
+      Key = {"Hello"} 
    }
 })
 
@@ -46,12 +46,10 @@ local Toggle = Tab:CreateToggle({
     Callback = function(Value)
         InfiniteJumpEnabled = Value
 
-        -- Handler lompat saat InfiniteJump aktif
         if InfiniteJumpEnabled then
             local Player = game:GetService("Players").LocalPlayer
             local UIS = game:GetService("UserInputService")
 
-            -- Pastikan hanya 1 koneksi yang aktif
             if _G.InfiniteJumpConnection then
                 _G.InfiniteJumpConnection:Disconnect()
             end
@@ -62,7 +60,6 @@ local Toggle = Tab:CreateToggle({
                 end
             end)
         else
-            -- Matikan infinite jump jika toggle dimatikan
             if _G.InfiniteJumpConnection then
                 _G.InfiniteJumpConnection:Disconnect()
                 _G.InfiniteJumpConnection = nil
@@ -79,11 +76,9 @@ local Toggle = Tab:CreateToggle({
         local player = game.Players.LocalPlayer
         local mouse = player:GetMouse()
 
-        -- Cari apakah tool sudah ada sebelumnya
         local existingTool = player.Backpack:FindFirstChild("Equip to Click TP") or player.Character:FindFirstChild("Equip to Click TP")
 
         if Value then
-            -- Toggle ON: Buat dan tambahkan tool
             if not existingTool then
                 local tool = Instance.new("Tool")
                 tool.RequiresHandle = false
@@ -98,7 +93,6 @@ local Toggle = Tab:CreateToggle({
                 tool.Parent = player.Backpack
             end
         else
-            -- Toggle OFF: Hapus tool jika ada
             if existingTool then
                 existingTool:Destroy()
             end
@@ -278,7 +272,7 @@ local Toggle = Tab:CreateToggle({
 })
 
 local Toggle = Tab:CreateToggle({
-    Name = "Teleport to Pole",
+    Name = "Teleport to Plane",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(Value)
@@ -288,7 +282,7 @@ local Toggle = Tab:CreateToggle({
             local hrp = character:WaitForChild("HumanoidRootPart")
 
             -- Ganti ini ke koordinat tujuan kamu
-            local targetPosition = CFrame.new(10995.5673828125, 553.0234375, -1.8613183498382568)
+            local targetPosition = CFrame.new(10988.951171875, 560.2615966796875, -1.934710063934326)
 
             hrp.CFrame = targetPosition
         end
