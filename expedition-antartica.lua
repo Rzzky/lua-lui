@@ -263,7 +263,7 @@ local Toggle = Tab:CreateToggle({
             local hrp = character:WaitForChild("HumanoidRootPart")
 
             -- Ganti ini ke koordinat tujuan kamu
-            local targetPosition = CFrame.new(10995.5673828125, 553.0234375, -1.8613183498382568)
+            local targetPosition = CFrame.new(10991.6826171875, 550.1880493164062, 106.43280029296875)
 
             hrp.CFrame = targetPosition
         end
